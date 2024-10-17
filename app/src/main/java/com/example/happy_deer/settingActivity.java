@@ -33,6 +33,7 @@ public class settingActivity extends AppCompatActivity {
         TextView dateSetting = findViewById(R.id.dateSetting);
         TextView version = findViewById(R.id.version);
         LinearLayout warning = findViewById(R.id.warning);
+        TextView dataExport = findViewById(R.id.dataExport);
 
         ThemeSetting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +91,15 @@ public class settingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent Developers = new Intent(settingActivity.this, DevelopersActivity.class);
                 startActivity(Developers);
+            }
+        });
+
+        //跳转导入导出页面
+        dataExport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent dataExport = new Intent(settingActivity.this, DataExporitActivity.class);
+                startActivity(dataExport);
             }
         });
 

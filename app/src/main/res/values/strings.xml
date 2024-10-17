@@ -17,6 +17,7 @@
     <string name="Settings_Data_text" translatable="false">DataManagement</string>
     <string name="Settings_Version_text" translatable="false">Version</string>
     <string name="Settings_Developers_text" translatable="false">DeveloperMode</string>
+    <string name="Settings_Data_export" translatable="false">Data import and export</string>
     <!--    activity_about-->
     <string name="About_Author" translatable="false">author:NANA</string>
     <string name="About_Copyright" translatable="false">© 2024 NANA. All rights reserved.</string>

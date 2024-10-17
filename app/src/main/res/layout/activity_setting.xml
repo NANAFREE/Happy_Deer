@@ -112,6 +112,37 @@
             android:contentDescription="Arrow icon" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:background="#F7F7F7"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <ImageView
+            android:layout_width="70px"
+            android:layout_height="100px"
+            android:src="@drawable/date"
+            android:contentDescription="Privacy icon"
+            android:layout_marginEnd="16dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/dataExport"
+            android:text="@string/Settings_Data_export"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+        <ImageView
+            android:layout_width="70px"
+            android:layout_height="100px"
+            android:src="@drawable/dotsvertical"
+            android:contentDescription="Arrow icon" />
+    </LinearLayout>
+
     <!-- 可以添加更多的设置项 -->
     <LinearLayout
         android:layout_width="match_parent"

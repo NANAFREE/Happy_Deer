@@ -2,16 +2,24 @@ package com.example.happy_deer;
 
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.github.mikephil.charting.data.Entry;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,7 +36,8 @@ public class HealthRecordManager {
         dbOpenHelper = new DBOpenHelper(context, "HealthRecords.db", null, 1);
     }
 
-//    根据年份月份查询所有数据
+
+    //    根据年份月份查询所有数据
     public List<String> getRecordsForMonth(int year, int month) {
         List<String> records = new ArrayList<>();
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
@@ -302,7 +311,7 @@ public int getRecordCountForMonth(int year, int month) {
         try {
             // 在 Downloads 目录下创建 MyApp 子文件夹
             File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            File appFolder = new File(downloadsDir, "MyApp");
+            File appFolder = new File(downloadsDir, "Happy_deer");
 
             // 确保文件夹存在
             if (!appFolder.exists()) {
@@ -322,6 +331,82 @@ public int getRecordCountForMonth(int year, int month) {
 
         }
     }
+
+//    数据导出 我觉得用上面的比较好，之前没看懂，现在看懂了，因为上面会将文件保存在Download的自建文件夹APP里
+    public void exportData(Context context) {
+        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM HealthRecords", null);
+
+        // 指定导出文件的路径和名称
+        File exportDir = new File(context.getExternalFilesDir(null), "export");
+        if (!exportDir.exists()) {
+            exportDir.mkdirs(); // 创建目录
+        }
+
+        File exportFile = new File(exportDir, "health_records.csv");
+
+        try {
+            FileWriter fileWriter = new FileWriter(exportFile);
+            StringBuilder sb = new StringBuilder();
+
+            // 添加表头
+            sb.append("ID,Date,Time,Frequency,Last_datetime,Interval_time,Remarks\n");
+
+            while (cursor.moveToNext()) {
+                sb.append(cursor.getInt(0)).append(",") // ID
+                        .append(cursor.getString(1)).append(",") // Date
+                        .append(cursor.getString(2)).append(",") // Time
+                        .append(cursor.getInt(3)).append(",") // Frequency
+                        .append(cursor.getString(4)).append(",") // Last_datetime
+                        .append(cursor.getInt(5)).append(",") // Interval_time
+                        .append(cursor.getString(6)).append("\n"); // Remarks
+            }
+
+            fileWriter.write(sb.toString());
+            fileWriter.close();
+            cursor.close();
+            Toast.makeText(context, "Export Successful: " + exportFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(context, "Export Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //数据导入
+    public void importData(Context context, Uri uri) {
+        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
+        BufferedReader bufferedReader;
+
+        try {
+            InputStream inputStream = context.getContentResolver().openInputStream(uri);
+            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+
+            // 跳过表头
+            bufferedReader.readLine();
+
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] values = line.split(",");
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("Date", values[1]);
+                contentValues.put("Time", values[2]);
+                contentValues.put("Frequency", Integer.parseInt(values[3]));
+                contentValues.put("Last_datetime", values[4]);
+                contentValues.put("Interval_time", Integer.parseInt(values[5]));
+                contentValues.put("Remarks", values[6]);
+
+                db.insert("HealthRecords", null, contentValues);
+            }
+
+            bufferedReader.close();
+            Toast.makeText(context, "Import Successful", Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(context, "Import Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
 
 
