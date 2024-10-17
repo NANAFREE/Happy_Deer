@@ -20,6 +20,7 @@
   <img src="https://img.shields.io/badge/OkHttp-3E4348?style=for-the-badge&logo=square&logoColor=white" alt="OkHttp">
   <img src="https://img.shields.io/badge/NanoHTTPD-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="NanoHTTPD">
   <img src="https://img.shields.io/badge/MPAndroidChart-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="MPAndroidChart">
+  <img src="https://img.shields.io/badge/SimpleHttpServer-FF4081?style=for-the-badge&logo=java&logoColor=white" alt="SimpleHttpServer">
 </p>
 
 <p align="center">
