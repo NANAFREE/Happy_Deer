@@ -1,11 +1,15 @@
 package com.example.happy_deer;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -14,6 +18,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -593,17 +598,18 @@ public static int calculateMinutesDifference(String lastDateTime, String current
 //            获取远程仓库最新版本
             UpdateApp.fetchJsonData(new UpdateApp.VersionCallback() {
                 @Override
-                public void onVersionFetched(String version) {
+                public void onVersionFetched(String version,String downloadUrl) {
                     // 在 versionName 前添加 'v'
                     String prefixedVersionName = "v" + versionName;
 
                     Log.i("MainActivity", "当前APP版本:" + prefixedVersionName + " 远程仓库版本:" + version);
+                    Log.i("MainActivity","获取最新版本下载地址:" + downloadUrl);
 //                    对比判断
                     if (version.equals(prefixedVersionName)){
                         Log.d("CheckForAppVersion","当前已是最新版本");
                     }else {
                         Log.d("CheckForAppVersion","需要更新");
-
+                        downloadApk(downloadUrl);
                     }
                 }
             });
@@ -615,6 +621,20 @@ public static int calculateMinutesDifference(String lastDateTime, String current
 
 
     }
+
+    public void downloadApk(String apkUrl) {
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(apkUrl));
+        request.setTitle("Downloading Update");
+        request.setDescription("Downloading the latest version of the app...");
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "app_update.apk");
+
+        DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        long downloadId = downloadManager.enqueue(request);
+
+        // Optional: You can track the download progress or completion using BroadcastReceiver
+    }
+
 
 
 

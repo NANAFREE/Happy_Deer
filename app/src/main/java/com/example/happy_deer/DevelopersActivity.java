@@ -154,7 +154,7 @@ public class DevelopersActivity extends AppCompatActivity {
             public void onClick(View v) {
                 UpdateApp.fetchJsonData(new UpdateApp.VersionCallback() {
                     @Override
-                    public void onVersionFetched(String version) {
+                    public void onVersionFetched(String version,String downloadUrl) {
 
                     }
                 });
