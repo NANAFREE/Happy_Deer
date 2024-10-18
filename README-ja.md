@@ -1,10 +1,26 @@
 ## 针对安卓系统的単一タスク時間管理プロジェクト
 
 <p align="center">
+ <img src="docs_assets/default.jpg" alt="logo" width="240px">
+</p>
+
+<p align="center">
     <img src="docs_assets/Java.png" alt="Java" width="120px"/>
     <img src="docs_assets/Android.png" alt="Android" width="120px">
     <img src="docs_assets/GitHub.png" alt="Github" width="120px">
     <img src="docs_assets/HTML.png" alt="HTML" width="120px">
+    <img src="docs_assets/React.png" alt="HTML" width="120px">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/XML-005C0F?style=for-the-badge&logo=xml&logoColor=white" alt="XML">
+  <img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white" alt="Gradle">
+  <img src="https://img.shields.io/badge/Room-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Room">
+  <img src="https://img.shields.io/badge/Retrofit-48B983?style=for-the-badge&logo=square&logoColor=white" alt="Retrofit">
+  <img src="https://img.shields.io/badge/OkHttp-3E4348?style=for-the-badge&logo=square&logoColor=white" alt="OkHttp">
+  <img src="https://img.shields.io/badge/NanoHTTPD-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="NanoHTTPD">
+  <img src="https://img.shields.io/badge/MPAndroidChart-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="MPAndroidChart">
+  <img src="https://img.shields.io/badge/SimpleHttpServer-FF4081?style=for-the-badge&logo=java&logoColor=white" alt="SimpleHttpServer">
 </p>
 
 <p align="center">
@@ -36,17 +52,22 @@ Android studioを開いてプロジェクトをインポートします。
 
 ## 進行中
 - [x] 開発者ページを追加する。
-- [ ] テーマ機能を追加して、異なるテーマ間を切り替え可能にします。
+- [x] テーマ機能を追加して、異なるテーマ間を切り替え可能にします。
 - [ ] デフォルトモードを追加。例えば、個人モードや夫婦モードなど。
-- [ ] 多言語サポート。
-- [ ] キャッシュをクリアする。
+- [x] 多言語サポート。
+- [x] キャッシュをクリアする。
 - [ ] 宣伝とプロモーションに関する問題と解決策。
-- [ ] データのインポートとエクスポート。
-- [ ] text_hpの判断をカスタマイズ可能に。
+- [x] データのインポートとエクスポート。
+- [x] text_hpの判断をカスタマイズ可能に。
 - [x] GitHubリリースを利用して、クライアントプログラムのバージョン管理と自動更新を実現する。
 - [ ] 一鍵共有。
 
 ## バージョン更新
+
+### [1.4.2] - 2024-10-1
+- **Added**: 新しいテーマ設定とアイコンを追加しました
+- **Optimized**: カスタマイズが容易なように、基盤となるTextViewの読み込みコードを再構築しました
+- **Fixed**  一部のページで黒い背景が表示される問題を修正しました
 
 ### [1.0.2] - 2024-09-19
 - **Added**: 新しいスタイル設定を追加しました。閾値時間、ホームページ背景設定、サイドバー背景設定。

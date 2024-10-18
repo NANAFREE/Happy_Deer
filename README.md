@@ -53,10 +53,10 @@ Please read http://www.catb.org/~esr/faqs/smart-questions.html Make your questio
 - [x] Added developer page.
 - [x] Add theme function to switch between different themes.
 - [ ] Add default modes, such as individual mode and couple mode.
-- [ ] Multi-language support.
-- [ ] Cache Cleaning.
+- [x] Multi-language support.
+- [x] Cache Cleaning.
 - [ ] Problems and solutions regarding publicity and promotion.
-- [ ] Import and export of data.
+- [x] Import and export of data.
 - [x] You can customize the judgment of text_hp.
 - [x] Use github release to achieve version control and automatic update of client program.
 - [ ] One-click sharing.
