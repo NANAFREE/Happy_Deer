@@ -4,12 +4,16 @@ package com.example.happy_deer;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.mikephil.charting.data.Entry;
 
@@ -27,8 +31,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class HealthRecordManager {
+public class HealthRecordManager extends AppCompatActivity {
+
     private DBOpenHelper dbOpenHelper;
+
 
     // 构造函数
     public HealthRecordManager(Context context) {
@@ -282,6 +288,7 @@ public int getRecordCountForMonth(int year, int month) {
         return result;
     }
 
+    //数据导出方法
     public void exportDatabaseToCSV() {
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM HealthRecords", null);
@@ -332,6 +339,33 @@ public int getRecordCountForMonth(int year, int month) {
         }
     }
 
+    //清除导出的数据
+    public void clearAppFolder() {
+        // 获取 Downloads 目录下的 Happy_deer 子文件夹
+        File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        File appFolder = new File(downloadsDir, "Happy_deer");
+
+        // 检查文件夹是否存在
+        if (appFolder.exists() && appFolder.isDirectory()) {
+            // 获取文件夹中的所有文件
+            File[] files = appFolder.listFiles();
+
+            if (files != null) {
+                for (File file : files) {
+                    // 删除每个文件
+                    if (file.isFile()) {
+                        boolean deleted = file.delete();
+                        Log.d("HealthRecordManager", "删除文件: " + file.getName() + " 成功: " + deleted);
+                    }
+                }
+            }
+
+            Log.d("HealthRecordManager", "清除 Happy_deer 文件夹中的所有数据成功");
+        } else {
+            Log.d("HealthRecordManager", "Happy_deer 文件夹不存在");
+        }
+    }
+
 //    数据导出 我觉得用上面的比较好，之前没看懂，现在看懂了，因为上面会将文件保存在Download的自建文件夹APP里
     public void exportData(Context context) {
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
@@ -369,41 +403,6 @@ public int getRecordCountForMonth(int year, int month) {
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(context, "Export Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    //数据导入
-    public void importData(Context context, Uri uri) {
-        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-        BufferedReader bufferedReader;
-
-        try {
-            InputStream inputStream = context.getContentResolver().openInputStream(uri);
-            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            String line;
-
-            // 跳过表头
-            bufferedReader.readLine();
-
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] values = line.split(",");
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("Date", values[1]);
-                contentValues.put("Time", values[2]);
-                contentValues.put("Frequency", Integer.parseInt(values[3]));
-                contentValues.put("Last_datetime", values[4]);
-                contentValues.put("Interval_time", Integer.parseInt(values[5]));
-                contentValues.put("Remarks", values[6]);
-
-                db.insert("HealthRecords", null, contentValues);
-            }
-
-            bufferedReader.close();
-            Toast.makeText(context, "Import Successful", Toast.LENGTH_SHORT).show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(context, "Import Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
