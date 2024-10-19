@@ -86,6 +86,20 @@
             android:gravity="center"
             android:layout_below="@id/middle_section">
             <!-- 这里可以添加下部分的内容 -->
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:id="@+id/revoke"
+                android:text="撤销"
+                android:textSize="20sp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/button_background"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#6200EE"
+                android:elevation="4dp" />
+
 
         </LinearLayout>
 

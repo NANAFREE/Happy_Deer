@@ -107,7 +107,7 @@ public class DevelopersActivity extends AppCompatActivity {
                     try {
                         int id = Integer.parseInt(text);
                         // 进一步处理删除记录的逻辑
-                        deleteRecordById(id);
+                        deleteRecordById(id,DevelopersActivity.this);
                     } catch (NumberFormatException e) {
                         // 输入的文本不是有效的整数
                         inputText.setText("请输入有效的数字作为ID");
@@ -199,9 +199,9 @@ public class DevelopersActivity extends AppCompatActivity {
     }
 
 //    通过ID删除对应数据
-    public void deleteRecordById(int id) {
+    public void deleteRecordById(int id,Context context) {
         // 创建数据库
-        DBOpenHelper dbOpenHelper = new DBOpenHelper(DevelopersActivity.this, "HealthRecords.db", null, 1);
+        DBOpenHelper dbOpenHelper = new DBOpenHelper(context, "HealthRecords.db", null, 1);
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 
         // 定义删除条件，使用问号占位符

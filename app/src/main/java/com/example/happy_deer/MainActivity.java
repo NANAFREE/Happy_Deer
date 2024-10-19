@@ -61,9 +61,13 @@ public class MainActivity extends AppCompatActivity {
     private ImageView main_sidbar_bg;
     private TextView distance;
     private TextView hp;
-
+    private TextView revoke_btn;
     private Toast currentToast; // 声明一个 Toast 对象
 
+    //数据
+    String new_id;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         main_sidbar_bg = findViewById(R.id.main_sidbar_bg);
         distance = findViewById(R.id.text_distance);
         hp = findViewById(R.id.text_hp);
+        revoke_btn = findViewById(R.id.revoke);
 
         // 执行第一次检查
         checkAndUpdateData();
@@ -92,6 +97,15 @@ public class MainActivity extends AppCompatActivity {
 
         //版本检查
         CheckForAppVersion();
+
+        //撤销按钮初始化
+        if (btn_start.isEnabled()) {
+            System.out.println("正常");
+            revoke_btn.setVisibility(View.INVISIBLE);
+        } else {
+            System.out.println("错误");
+            revoke_btn.setVisibility(View.VISIBLE);
+        }
 
         // 每60秒执行一次
         runnable = new Runnable() {
@@ -133,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
                         saveDateTime(date,time,frequency);
                         //添加完成后禁用
                         btn_start.setEnabled(false);
+                        revoke_btn.setVisibility(View.VISIBLE);
                         btn_start.setText("今日已锻炼");
                         checkAndUpdateData();
                         ApiManager.GetJiTang(new ApiManager.ApiCallback() {
@@ -180,6 +195,20 @@ public class MainActivity extends AppCompatActivity {
                         btn_start.setEnabled(false);
                     }
                 }
+            }
+        });
+
+        //点击撤销按钮后
+        revoke_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                revoke_btn.setVisibility(View.INVISIBLE);
+                Log.i("需要撤销的ID:",new_id);
+                btn_start.setEnabled(true);
+                btn_start.setText("开始锻炼");
+                DevelopersActivity developersActivity = new DevelopersActivity();
+                developersActivity.deleteRecordById(Integer.parseInt(new_id),MainActivity.this);
+                checkAndUpdateData();
             }
         });
 
@@ -301,6 +330,8 @@ public class MainActivity extends AppCompatActivity {
                     " last_datetime:" + lastDatetime + " interval_time:" + intervalTime +
                     " 备注:" + remarks;
             Log.i("数据表", va);
+            //用于撤回的最新一条数据id保存
+            new_id = id;
         }
         healthRecords.close();
         return recordData; // 返回存储最新记录的 HashMap，可能是空的
